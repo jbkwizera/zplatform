@@ -1,15 +1,13 @@
 #### Table of Contents
-1. [Task - User Account Management](#account-management)
-  1. [Context](#context)
-  2. [Requirements](#requirements)
-  3. [Delivery expectations](#expectations)
-  4. [Things to note](#notes)
-2. [Solution - Test Suite](#testing)
+- [Task - User Account Management](#user-account-management)
+  - [Context](#context)
+  - [Requirements](#requirements)
+  - [Delivery expectations](#delivery-expectations)
+  - [Things to note](#things-to-note)
+- [Solution - Test Suite](#test-suite)
 
-<a name="account-management"/>
 # User Account Management
 
-<a name="context"/>
 ## Context
 __Company Z__ provides essential online services for tens of thousands of users through their platform __ZPlatform.__
 
@@ -20,7 +18,6 @@ __Company Z__ is going through stages of growth and adding 1000's of users daily
 - Store and manage user data at orders of magnitude of <ins>__scale.__</ins>
 - Implement best in class <ins>__security__</ins> features.
 
-<a name="requirements"/>
 ## Requirements
 
 Build <ins>user account management</ins> features of a web application to meet the above requirements.
@@ -58,24 +55,25 @@ Implement a concept of a _verified account_ - The idea is to allow a user to pro
  - <ins>Optionally</ins> - send a notification to the user when the account is verified
  - Mark the account as verified - using badges (Twitter as an example)
 
-<a name="expectations"/>
-## Delivery expectations:
+## Delivery expectations
 1. A presentation deck of the design:
- > 👉️ Google Presentation Deck link
+
+    > 👉️ Google Presentation Deck link
 
 2. A working prototype of the solution:
- > 👉️ Github link for the source code
- > 👉️ A ReadMe with instruction on how to run/test the solution (Root of code base)
- > 👉️ (optional) Link of the demo solution
+
+    > 👉️ Github link for the source code
+
+    > 👉️ A ReadMe with instruction on how to run/test the solution (Root of code base)
+
+    > 👉️ (optional) Link of the demo solution
 
 3. Developer will walk the team through his solution.
 
-<a name="notes"/>
-## Things to note:
+## Things to note
 1. Clearly design and define your system architecture
 2. Be ready to communicate and defend your design decisions
 3. <ins>Security</ins> and <ins>scale</ins> as design principles
 4. Clearly show how your tests have been implemented (main focus can be put on UI or backend or both)
 
-<a name="testing"/>
 # Test Suite
