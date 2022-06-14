@@ -80,10 +80,10 @@ export class AuthService {
         window.alert(error);
       });
   }
-  // Returns true when user is logged in and email is verified
+  // Returns true when user is logged in
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== null && user.emailVerified !== false ? true : false;
+    return user !== null;
   }
 
   // Auth logic to run auth providers
@@ -112,7 +112,6 @@ export class AuthService {
     const userData: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
     };

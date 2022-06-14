@@ -7,8 +7,8 @@
       <div class="text-center">
         <img
           class="card-img-top mt-4"
-          src="https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg"
-          alt="Card image cap"
+          [src]="userData?.photoURL"
+          alt="Profile photo"
           style="
             max-width: 300px;
             height: auto;
@@ -21,13 +21,13 @@
       <div class="card-body">
         <div class="title-elements">
           <h5 class="card-title text-center">
-            Cat the King
+            {{ (userData?.firstName ?? "") + " " + (userData?.lastName ?? "") }}
             <i class="fa-solid fa-circle-check" style="color: #33b5e5"></i>
           </h5>
         </div>
         <hr />
-        <p *ngIf="!isComplete">Please complete your profile!</p>
-        <p *ngIf="!isVerified">
+        <p *ngIf="!complete">Please complete your profile!</p>
+        <p *ngIf="!verified">
           You must provide your
           <strong>National Identification</strong> or
           <strong>Passport</strong> number <u>and</u> corresponding
@@ -37,15 +37,27 @@
         <div>
           <div class="form-group">
             <label for="firstName">First name</label>
-            <input type="text" class="form-control" />
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="userData.firstName"
+            />
           </div>
           <div class="form-group mb-2">
             <label for="firstName">Last name</label>
-            <input type="text" class="form-control" />
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="userData.lastName"
+            />
           </div>
           <div class="form-group mb-2">
             <label for="firstName">Profile photo URL</label>
-            <input type="text" class="form-control" />
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="userData.photoURL"
+            />
           </div>
           <div class="d-flex align-items-center">
             <div class="me-2" style="margin-top: 2px">Gender:</div>
@@ -55,6 +67,9 @@
                 type="radio"
                 name="gender"
                 id="female"
+                value="female"
+                [checked]="userData.gender == 'female'"
+                [(ngModel)]="userData.gender"
               />
               <label class="form-check-label" for="female">Female</label>
             </div>
@@ -64,29 +79,65 @@
                 type="radio"
                 name="gender"
                 id="male"
+                value="male"
+                [checked]="userData.gender == 'male'"
+                [(ngModel)]="userData.gender"
               />
               <label class="form-check-label" for="male">Male</label>
             </div>
           </div>
           <div class="marital-status mt-3">
-            <select class="form-select">
+            <select
+              class="form-select"
+              name="marital-status"
+              [(ngModel)]="userData.maritalStatus"
+            >
               <option selected value="null">Select your marital status</option>
-              <option value="single">Single</option>
-              <option value="married">Married</option>
-              <option value="divorced">Divorced</option>
-              <option value="widowed">Widowed</option>
+              <option
+                value="single"
+                [selected]="userData.maritalStatus == 'single'"
+              >
+                Single
+              </option>
+              <option
+                value="married"
+                [selected]="userData.maritalStatus == 'married'"
+              >
+                Married
+              </option>
+              <option
+                value="divorced"
+                [selected]="userData.maritalStatus == 'divorced'"
+              >
+                Divorced
+              </option>
+              <option
+                value="widowed"
+                [selected]="userData.maritalStatus == 'widowed'"
+              >
+                Widowed
+              </option>
             </select>
           </div>
           <div class="dob mt-3">
             <label for="dob">Date of Birth </label>
-            <input type="date" id="date" class="form-control" />
+            <input
+              type="date"
+              id="date"
+              class="form-control"
+              [placeholder]="userData.dob"
+            />
           </div>
           <div class="nationality mt-3">
             <select class="form-select">
               <option selected value="null">
                 Select the country of your nationality
               </option>
-              <option *ngFor="let country of countries" [value]="country.code">
+              <option
+                *ngFor="let country of countries"
+                [value]="country.code"
+                [selected]="userData.nationality == country.code"
+              >
                 {{ country.name }}
               </option>
             </select>
@@ -128,8 +179,13 @@
           >
           <input class="form-control" type="file" id="id-file" />
         </div>
-        <hr />
-        <button class="btn btn-danger" (click)="authService.SignOut()">
+        <button class="btn btn-warning mt-4 me-4" (click)="discardChanges()">
+          Discard changes
+        </button>
+        <button class="btn btn-primary mt-4 me-4" (click)="saveChanges()">
+          Save changes
+        </button>
+        <button class="btn btn-danger mt-4" (click)="authService.SignOut()">
           Log out
         </button>
       </div>

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument,
+  DocumentSnapshot,
+} from '@angular/fire/compat/firestore';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { User } from 'src/app/shared/services/user';
 import { default as countries } from '../../shared/countries.json';
 @Component({
   selector: 'app-profile',
@@ -9,16 +15,69 @@ import { default as countries } from '../../shared/countries.json';
 export class ProfileComponent implements OnInit {
   public countries: { name: string; code: string }[] = countries;
   public idType = '';
+  public user: any;
+  public userRef: AngularFirestoreDocument<any>;
+  public userData: User = {
+    uid: '',
+    email: '',
+    photoURL: '',
+    emailVerified: false,
+    dob: undefined,
+    firstName: '',
+    gender: '',
+    lastName: '',
+    maritalStatus: '',
+    nationalId: '',
+    nationality: '',
+    passport: '',
+  };
+  public initData: User = { ...this.userData };
 
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, public afs: AngularFirestore) {
+    this.user = JSON.parse(localStorage.getItem('user')!);
+    this.userRef = this.afs.doc(`users/${this.user.uid}`);
+    this.userRef.get().subscribe((snapShot: DocumentSnapshot<any>) => {
+      this.userData = {
+        ...this.userData,
+        ...snapShot.data(),
+      };
+      this.initData = {
+        ...this.initData,
+        ...snapShot.data(),
+      };
+    });
+  }
 
   ngOnInit(): void {}
 
-  get isComplete(): boolean {
-    return true;
+  get complete(): boolean {
+    return (
+      this.userData.photoURL !== '' &&
+      this.userData.emailVerified === true &&
+      this.userData.dob !== undefined &&
+      this.userData.firstName !== '' &&
+      this.userData.lastName !== '' &&
+      this.userData.gender !== '' &&
+      this.userData.maritalStatus !== '' &&
+      this.userData.nationality !== '' &&
+      (this.userData.nationalId !== '' || this.userData.passport !== '')
+    );
   }
 
-  get isVerified(): boolean {
-    return false;
+  get verified(): boolean {
+    return this.user.passport != '' || this.user.nationalId != '';
+  }
+
+  saveChanges() {
+    this.userRef = this.afs.doc(`users/${this.user.uid}`);
+    this.userRef
+      .update(this.userData)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => console.log(error));
+  }
+  discardChanges() {
+    this.userData = { ...this.initData };
   }
 }
