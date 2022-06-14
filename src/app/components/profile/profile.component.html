@@ -1,1 +1,138 @@
-<p>profile works!</p>
+<div
+  class="d-flex justify-content-center align-items-center"
+  style="min-height: 100vh"
+>
+  <div class="card-wrapper col-lg-7">
+    <div class="card my-4">
+      <div class="text-center">
+        <img
+          class="card-img-top mt-4"
+          src="https://th-thumbnailer.cdn-si-edu.com/bZAar59Bdm95b057iESytYmmAjI=/1400x1050/filters:focal(594x274:595x275)/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/95/db/95db799b-fddf-4fde-91f3-77024442b92d/egypt_kitty_social.jpg"
+          alt="Card image cap"
+          style="
+            max-width: 300px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10%;
+            position: relative;
+          "
+        />
+      </div>
+      <div class="card-body">
+        <div class="title-elements">
+          <h5 class="card-title text-center">
+            Cat the King
+            <i class="fa-solid fa-circle-check" style="color: #33b5e5"></i>
+          </h5>
+        </div>
+        <hr />
+        <p *ngIf="!isComplete">Please complete your profile!</p>
+        <p *ngIf="!isVerified">
+          You must provide your
+          <strong>National Identification</strong> or
+          <strong>Passport</strong> number <u>and</u> corresponding
+          <strong>official document</strong> to be verified.
+        </p>
+        <h5 class="text-info">Basic information</h5>
+        <div>
+          <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="firstName">Last name</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="firstName">Profile photo URL</label>
+            <input type="text" class="form-control" />
+          </div>
+          <div class="d-flex align-items-center">
+            <div class="me-2" style="margin-top: 2px">Gender:</div>
+            <div class="form-check me-2" style="margin-top: 5px">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gender"
+                id="female"
+              />
+              <label class="form-check-label" for="female">Female</label>
+            </div>
+            <div class="form-check" style="margin-top: 5px">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="gender"
+                id="male"
+              />
+              <label class="form-check-label" for="male">Male</label>
+            </div>
+          </div>
+          <div class="marital-status mt-3">
+            <select class="form-select">
+              <option selected value="null">Select your marital status</option>
+              <option value="single">Single</option>
+              <option value="married">Married</option>
+              <option value="divorced">Divorced</option>
+              <option value="widowed">Widowed</option>
+            </select>
+          </div>
+          <div class="dob mt-3">
+            <label for="dob">Date of Birth </label>
+            <input type="date" id="date" class="form-control" />
+          </div>
+          <div class="nationality mt-3">
+            <select class="form-select">
+              <option selected value="null">
+                Select the country of your nationality
+              </option>
+              <option *ngFor="let country of countries" [value]="country.code">
+                {{ country.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <h5 class="text-info mt-3">ID and Official Document</h5>
+        <div class="d-flex align-items-center">
+          <div class="me-2" style="margin-top: 1px">Select ID type:</div>
+          <div class="form-check me-2" style="margin-top: 5px">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="id-type"
+              id="nid"
+              value="National ID"
+              [(ngModel)]="idType"
+            />
+            <label class="form-check-label" for="nid">National ID</label>
+          </div>
+          <div class="form-check" style="margin-top: 5px">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="id-type"
+              id="passport"
+              value="Passport"
+              [(ngModel)]="idType"
+            />
+            <label class="form-check-label" for="passport">Passport</label>
+          </div>
+        </div>
+        <div class="form-group mt-2" *ngIf="idType !== ''">
+          <label for="id-value">{{ idType }} Number</label>
+          <input type="text" id="id-value" class="form-control" />
+        </div>
+        <div class="mt-2" *ngIf="idType !== ''">
+          <label for="id-file" class="form-label"
+            >Upload your {{ idType }}'s image</label
+          >
+          <input class="form-control" type="file" id="id-file" />
+        </div>
+        <hr />
+        <button class="btn btn-danger" (click)="authService.SignOut()">
+          Log out
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -55,6 +55,7 @@ export class AuthService {
         up and returns promise */
         this.SendVerificationMail();
         this.SetUserData(result.user);
+        // Write user to the database
       })
       .catch((error) => {
         window.alert(error.message);
