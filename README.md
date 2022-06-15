@@ -4,6 +4,7 @@
   - [Requirements](#requirements)
   - [Delivery expectations](#delivery-expectations)
   - [Things to note](#things-to-note)
+- [Installation](#installation)
 - [Solution - Test Suite](#test-suite)
 
 # User Account Management
@@ -75,5 +76,8 @@ Implement a concept of a _verified account_ - The idea is to allow a user to pro
 2. Be ready to communicate and defend your design decisions
 3. <ins>Security</ins> and <ins>scale</ins> as design principles
 4. Clearly show how your tests have been implemented (main focus can be put on UI or backend or both)
+
+# Installation
+To install this project, run ```git clone https://github.com/jbkwizera/zplatform.git``` to clone it. Then move into the project root directory ```cd zplatform```, and install ```npm``` packages and dependencies with ```npm install```. Lastly, run ```ng serve``` to start a local development server for the project. It should go live in the browser at localhost:4200.
 
 # Test Suite
