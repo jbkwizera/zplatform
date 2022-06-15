@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
     nationalId: '',
     nationality: '',
     passport: '',
+    verified: false,
   };
   public initData: User = { ...this.userData };
 
@@ -64,8 +65,11 @@ export class ProfileComponent implements OnInit {
     );
   }
 
-  get verified(): boolean {
-    return this.user.passport != '' || this.user.nationalId != '';
+  get verificationStatus(): number {
+    if (this.userData.verified) return 3;
+    if (this.userData.passport != '') return 2;
+    if (this.userData.nationalId != '') return 2;
+    return 1;
   }
 
   saveChanges() {

@@ -10,6 +10,35 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
+  public emailRegex: RegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  public passwordRegex: RegExp =
+    /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/;
+
+  public passwordConditions = [
+    {
+      description: 'At least 8 characters long',
+      regex: new RegExp('(?=.{8,})'),
+    },
+    {
+      description: 'Has at least one uppercase letter',
+      regex: new RegExp('(?=.*[A-Z])'),
+    },
+    {
+      description: 'Has at least one lowercase letter',
+      regex: new RegExp('(?=.*[a-z])'),
+    },
+    { description: 'Has at least one digit', regex: new RegExp('(?=.*[0-9])') },
+    {
+      description: 'Has at least one special character',
+      regex: new RegExp('[^a-zA-Z0-9]'),
+    },
+  ];
+
+  public errors: any = {
+    signIn: undefined,
+    signUp: undefined,
+    forgotPassword: undefined,
+  };
   userData: any; // Save logged in user data
   constructor(
     public afs: AngularFirestore, // Inject Firestore service
@@ -43,11 +72,12 @@ export class AuthService {
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error.message);
+        // window.alert(error.message);
+        this.errors['signIn'] = error;
       });
   }
   // Sign up with email/password
-  SignUp(email: string, password: string, confirmPassword: string) {
+  SignUp(email: string, password: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
@@ -58,7 +88,8 @@ export class AuthService {
         // Write user to the database
       })
       .catch((error) => {
-        window.alert(error.message);
+        // window.alert(error.message);
+        this.errors['signUp'] = error;
       });
   }
   // Send email verfificaiton when new user sign up
@@ -77,7 +108,8 @@ export class AuthService {
         window.alert('Password reset email sent, check your inbox.');
       })
       .catch((error) => {
-        window.alert(error);
+        // window.alert(error);
+        this.errors['forgotPassword'] = error;
       });
   }
   // Returns true when user is logged in

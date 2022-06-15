@@ -3,12 +3,15 @@
   style="min-height: 100vh"
 >
   <div class="card-wrapper col-lg-7">
-    <div class="card my-4">
+    <div
+      class="card my-4 p-4"
+      style="box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; border: none"
+    >
       <div class="text-center">
         <img
           class="card-img-top mt-4"
           [src]="userData?.photoURL"
-          alt="Profile photo"
+          alt="Profile picture"
           style="
             max-width: 300px;
             height: auto;
@@ -19,19 +22,39 @@
         />
       </div>
       <div class="card-body">
-        <div class="title-elements">
+        <div class="title-elements d-flex flex-column align-items-center">
           <h5 class="card-title text-center">
             {{ (userData?.firstName ?? "") + " " + (userData?.lastName ?? "") }}
-            <i class="fa-solid fa-circle-check" style="color: #33b5e5"></i>
+            <i
+              *ngIf="verificationStatus == 3"
+              data-toggle="tooltip"
+              title="Verified"
+              class="fa-solid fa-circle-check"
+              style="color: #33b5e5"
+            ></i>
+            <i
+              *ngIf="verificationStatus == 1"
+              class="fa-solid fa-circle-xmark"
+              data-toggle="tooltip"
+              title="Provide proof of identity to get verified"
+              style="color: #df4759"
+            ></i>
+            <i
+              *ngIf="verificationStatus == 2"
+              class="fa-solid fa-clock"
+              data-toggle="tooltip"
+              title="Verification pending"
+              style="color: #f0ad4e"
+            ></i>
           </h5>
         </div>
         <hr />
         <p *ngIf="!complete">Please complete your profile!</p>
-        <p *ngIf="!verified">
+        <p *ngIf="verificationStatus == 1">
           You must provide your
           <strong>National Identification</strong> or
           <strong>Passport</strong> number <u>and</u> corresponding
-          <strong>official document</strong> to be verified.
+          <strong>official document</strong> to get verified.
         </p>
         <h5 class="text-info">Basic information</h5>
         <div>
@@ -52,7 +75,7 @@
             />
           </div>
           <div class="form-group mb-2">
-            <label for="firstName">Profile photo URL</label>
+            <label for="firstName">Profile picture URL</label>
             <input
               type="text"
               class="form-control"

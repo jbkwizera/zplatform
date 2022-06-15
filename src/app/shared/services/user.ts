@@ -11,4 +11,5 @@ export interface User {
   nationalId?: string;
   nationality?: string;
   passport?: string;
+  verified?: boolean;
 }
